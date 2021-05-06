@@ -101,8 +101,11 @@ class _ExampleHomePageState extends State<ExampleHomePage>
               swipeDown: true,
               orientation: AmassOrientation.BOTTOM,
               totalNum: welcomeImages.length,
-              stackNum: 3,
-              swipeEdge: 4.0,
+              stackNum: 4,
+              swipeEdge: 3.0,
+              animDuration: 100,
+
+              //animDuration: 1,
               maxWidth: MediaQuery.of(context).size.width * 1.0,
               maxHeight: MediaQuery.of(context).size.width * 5.0,
               minWidth: MediaQuery.of(context).size.width * 0.8,
