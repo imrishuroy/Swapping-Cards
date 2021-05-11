@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_tindercard/flutter_tindercard.dart';
@@ -31,6 +32,14 @@ class _ExampleHomePageState extends State<ExampleHomePage>
   CardController _cardController; //Use this to trigger swap.
   ScrollController _scrollController;
 
+  double _scrollPosition;
+
+  _scrollListener() {
+    setState(() {
+      _scrollPosition = _scrollController.position.pixels;
+    });
+  }
+
   List appData = [];
   bool _loading = false;
 
@@ -52,6 +61,7 @@ class _ExampleHomePageState extends State<ExampleHomePage>
     getAppData();
     _cardController = CardController();
     _scrollController = ScrollController();
+    // _scrollController.addListener(_scrollListener);
 
     super.initState();
   }
@@ -62,6 +72,8 @@ class _ExampleHomePageState extends State<ExampleHomePage>
     _scrollController.dispose();
     super.dispose();
   }
+
+  int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -137,84 +149,100 @@ class _ExampleHomePageState extends State<ExampleHomePage>
                 orientation: AmassOrientation.BOTTOM,
                 totalNum: appData.length,
                 stackNum: 3,
-                swipeEdge: 1.0,
-                animDuration: 130,
+                swipeEdge: 8.0,
+                animDuration: 120,
                 maxWidth: MediaQuery.of(context).size.width * 1.03,
                 maxHeight: MediaQuery.of(context).size.width * 7.0,
                 minWidth: MediaQuery.of(context).size.width * 0.8,
                 minHeight: MediaQuery.of(context).size.width * 0.8,
                 cardBuilder: (context, index) => Card(
-                  child: SingleChildScrollView(
-                    controller: _scrollController,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                    child: ListView(
+                  controller: _scrollController,
+                  //   shrinkWrap: true,
+                  dragStartBehavior: DragStartBehavior.down,
+                  children: [
+                    Stack(
+                      alignment: Alignment.bottomLeft,
                       children: [
-                        Stack(
-                          alignment: Alignment.bottomLeft,
-                          children: [
-                            Container(
-                              height: MediaQuery.of(context).size.height * 0.82,
-                              child: Image.asset(
-                                '${appData[index]['image']}',
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12.0,
-                                vertical: 12.0,
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    '${appData[index]['name']}',
-                                    style: TextStyle(
-                                      color: Colors.grey[200],
-                                      fontSize: 25.0,
-                                      fontWeight: FontWeight.w600,
-                                      letterSpacing: 1.8,
-                                    ),
-                                  ),
-                                  IconButton(
-                                      icon: Icon(
-                                        Icons.star_border,
-                                        color: Colors.amber,
-                                        size: 30.0,
-                                      ),
-                                      onPressed: () {})
-                                ],
-                              ),
-                            ),
-                          ],
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.82,
+                          child: Image.asset(
+                            '${appData[index]['image']}',
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                          ),
                         ),
-                        BuildProfileFooter(
-                          about: appData[index]['about'],
-                          extraImages: appData[index]['extraImages'],
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12.0,
+                            vertical: 12.0,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '${appData[index]['name']}',
+                                style: TextStyle(
+                                  color: Colors.grey[200],
+                                  fontSize: 25.0,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 1.8,
+                                ),
+                              ),
+                              IconButton(
+                                icon: Icon(
+                                  Icons.star_border,
+                                  color: Colors.amber,
+                                  size: 30.0,
+                                ),
+                                onPressed: () {},
+                              )
+                            ],
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                ),
+                    BuildProfileFooter(
+                      about: appData[index]['about'],
+                      extraImages: appData[index]['extraImages'],
+                    ),
+                  ],
+                )),
                 cardController: _cardController,
                 swipeUpdateCallback:
                     (DragUpdateDetails details, Alignment align) {
                   /// Get swiping card's alignment
                   if (align.x < 0) {
-                    //Card is Left swiping
+                    // print('LEFT ${align.x}');
 
+                    //  Card is Left swiping
+
+                    // if (align.x < -6.0) {
+                    //   _scrollController.jumpTo(0.0);
+                    // }
                   } else if (align.x > 0) {
                     //Card is RIGHT swiping
+                    // print('RIGHT ${align.x}');
+
+                    // if (align.x > 16.0) {
+                    //   _scrollController.jumpTo(0.0);
+                    // }
                   }
                 },
                 swipeCompleteCallback:
                     (CardSwipeOrientation orientation, int index) {
-                  print(orientation);
-                  _scrollController.jumpTo(0.0);
-                  print(index);
+                  print(orientation.index);
+                  if (orientation.index == 0 || orientation.index == 1) {
+                    _scrollController.jumpTo(0.0);
+                  }
 
-                  if (index == appData.length) {}
+                  // _cardController.triggerUp();
+                  //_scrollController.jumpTo(0.0);
+                  // print(orientation);
+                  // if (currentIndex != index) {
+                  //   _scrollController.jumpTo(0.0);
+                  // }
+                  // currentIndex += 1;
 
                   // _scrollController.animateTo(0.0,
                   //     duration: Duration(milliseconds: 600), curve: Curves.linear);

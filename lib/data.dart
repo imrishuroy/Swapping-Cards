@@ -1,4 +1,4 @@
-List<Map<String, dynamic>> data = [
+final List<Map<String, dynamic>> data = [
   {
     'name': 'BatMan',
     'image': 'assets/pic-1.jpeg',
@@ -27,9 +27,10 @@ List<Map<String, dynamic>> data = [
     'about':
         'Captain America is a superhero appearing in American comic books published by Marvel Comics. Created by cartoonists Joe Simon and Jack Kirby, the character first appeared in Captain America Comics',
     'extraImages': [
-      'https://cdn.pixabay.com/photo/2020/10/28/10/02/captain-america-5692937__340.jpg',
-      'https://cdn.pixabay.com/photo/2016/03/31/17/51/captain-america-1293949__340.png',
-      'https://cdn.pixabay.com/photo/2017/03/16/10/12/captain-america-2148689__340.jpg',
+      'https://images.unsplash.com/photo-1569003339405-ea396a5a8a90?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c3VwZXJtYW58ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+      'https://wallpapercave.com/wp/wp1808930.jpg',
+      'https://wallpapercave.com/wp/wp1808933.jpg',
+      'https://wallpapercave.com/wp/wp1808936.jpg',
     ],
   },
   {

@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.swapping_cards">
+   <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="swapping_cards"
         android:icon="@mipmap/ic_launcher">
